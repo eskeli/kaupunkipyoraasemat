@@ -457,8 +457,8 @@ class App extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {stationItems.map(item => (
-                  <TableRow>
+                {stationItems.map((item, index) => (
+                  <TableRow key={index}>
                     <TableCell component="th" scope="row">{Moment(item.timestamp).format('D.M.')}</TableCell>
                     <TableCell component="th" scope="row">{Moment(item.timestamp).format('H.mm')}</TableCell>
                     <TableCell align="right">{item.bikesAvailable}</TableCell>
