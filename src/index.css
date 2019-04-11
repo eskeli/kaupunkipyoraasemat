@@ -13,7 +13,7 @@ code {
     monospace;
 }
 
-.flex-container {
+.pickers {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;

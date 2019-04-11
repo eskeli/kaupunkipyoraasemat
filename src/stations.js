@@ -1,4 +1,4 @@
-const options = [
+const stations = [
   { value: '591', label: '591 Mellstenintie' },
   { value: '230', label: '230 Mäkitorpantie' },
   { value: '593', label: '593 Toppelundintie' },
@@ -346,4 +346,4 @@ const options = [
   { value: '109', label: '109 Hertanmäenkatu' }
 ];
 
-export default options;
+export default stations;
