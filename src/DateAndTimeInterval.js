@@ -6,7 +6,7 @@ function DateTimeInterval({ timeFrom, timeTo, handleDateChange }) {
     <>
       <div className="picker">
         <DateTimePicker
-          value={timeTo}
+          value={timeFrom}
           onChange={handleDateChange}
           label="Alkaen"
           showTodayButton
