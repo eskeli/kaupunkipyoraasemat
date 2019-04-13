@@ -141,11 +141,12 @@ class App extends Component {
               </Button>
           </div>
           <Paper className={classes.paper} elevation={1}>
-            {Object.keys(stations).map((item, index) => (
+            {stations.map((item, index) => (
               <>
                 <Typography variant="h4" gutterBottom>
-                  {stations[item].name}
+                  {item.name} ({item.stationId})
                 </Typography>
+                Etäisyys {item.distance} m
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -156,7 +157,7 @@ class App extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {stations[item].history.map((historyItem, i) => (
+                    {item.history.map((historyItem, i) => (
                       <TableRow key={index}>
                         <TableCell>
                           {moment(historyItem.timestamp).format("D.M.")}
