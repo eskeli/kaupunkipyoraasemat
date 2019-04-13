@@ -6,20 +6,23 @@ import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
 import App from "./App";
 import Muuta from "./Muuta.js";
+import MyAppBar from "./MyAppBar.js";
 import * as serviceWorker from "./serviceWorker";
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+});
 
 ReactDOM.render(
   <Router>
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <div class="nav">
-        <ul>
-          <li>
-            <Link to="/">Kotska</Link>
-          </li>
-          <li>
-            <Link to="/muuta">Muuta</Link>
-          </li>
-        </ul>
+      <div>
+        <MyAppBar />
       </div>
       <Route exact path="/" component={App} />
       <Route path="/muuta" component={Muuta} />

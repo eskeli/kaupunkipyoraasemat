@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Route, Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -106,16 +104,6 @@ class App extends Component {
 
     return (
       <>
-        <div>
-          <AppBar position="static">
-            <Toolbar>
-              <Typography variant="title" color="inherit">
-                Kaupunkipyöräasemat
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </div>
-
         <main className={classes.layout}>
           <div className="picker">
             <DateTimePicker
