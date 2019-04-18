@@ -9,9 +9,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { DateTimePicker } from "material-ui-pickers";
 import Paper from "@material-ui/core/Paper";
+import Divider from '@material-ui/core/Divider';
 import Select from "react-select";
 import moment from "moment";
 import stations from "./stations.js";
+import RealTimeInfo from "./RealTimeInfo.js";
 
 const styles = theme => ({
   /*root: {
@@ -39,13 +41,17 @@ const styles = theme => ({
       marginBottom: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3
     }
+  },
+  divider: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
   }
 });
 
 class App extends Component {
   state = {
     selectedStation: "",
-    timeFrom: moment("2019-04-06T20:00"),
+    timeFrom: moment().subtract(1, 'hours'),
     timeTo: moment(),
     isLoading: false,
     stationItems: []
@@ -130,6 +136,8 @@ class App extends Component {
                 stationItems.length !== 0 &&
                 stationItems[0].name}
             </Typography>
+            <RealTimeInfo selectedStation={selectedStation.value} />
+            <Divider variant="middle" className={classes.divider} />
             <Table>
               <TableHead>
                 <TableRow>
@@ -154,12 +162,6 @@ class App extends Component {
             </Table>
           </Paper>
         </main>
-        {/*{stationItems.map(item => (
-          <DataRow datetime={item.timestamp} availableCount={item.bikesAvailable} />
-        ))}*/}
-        {/*<Button variant="contained" color="primary">
-          Hello World
-      </Button>*/}
       </>
     );
   }
