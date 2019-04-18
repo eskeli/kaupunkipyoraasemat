@@ -46,7 +46,13 @@ class RealTimeInfo extends Component {
         updateTime: null
     };
     componentWillReceiveProps() {
-        if (this.props.selectedStation) {
+        this.fetchData();
+    };
+    componentDidMount() {
+        this.fetchData();
+    };
+    fetchData() {
+         if (this.props.selectedStation) {
             this.setState({
                 isLoading: true,
             });

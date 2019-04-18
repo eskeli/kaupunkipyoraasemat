@@ -11,8 +11,10 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Divider from '@material-ui/core/Divider';
 import moment from "moment";
 import stations from "./stations.js";
+import RealTimeInfo from "./RealTimeInfo.js";
 
 const styles = theme => ({
   layout: {
@@ -35,13 +37,17 @@ const styles = theme => ({
       marginBottom: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3
     }
+  },
+  divider: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
   }
 });
 
 class Muuta extends Component {
   state = {
     selectedStation: "",
-    timeFrom: moment("2019-04-06T20:00"),
+    timeFrom: moment(),
     isLoading: false,
     stations: [],
     latitude: 60.192059,
@@ -141,11 +147,15 @@ class Muuta extends Component {
           </div>
           <Paper className={classes.paper} elevation={1}>
             {stations.map((item, index) => (
-              <>
+              <div key={item.stationId}>
                 <Typography variant="h4" gutterBottom>
                   {item.name} ({item.stationId})
                 </Typography>
+                <Typography variant="subtitle1" gutterBottom>
                 Etäisyys {item.distance} m
+                </Typography>
+                <RealTimeInfo selectedStation={item.stationId} />
+                <Divider variant="middle" className={classes.divider} />
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -157,7 +167,7 @@ class Muuta extends Component {
                   </TableHead>
                   <TableBody>
                     {item.history.map((historyItem, i) => (
-                      <TableRow key={index}>
+                      <TableRow key={item.stationId + '' + i}>
                         <TableCell>
                           {moment(historyItem.timestamp).format("D.M.")}
                         </TableCell>
@@ -170,8 +180,7 @@ class Muuta extends Component {
                     ))}
                   </TableBody>
                 </Table>
-
-              </>
+              </div>
             ))}
           </Paper>
         </main>

@@ -144,6 +144,7 @@ class App extends Component {
                   <TableCell>Päivä</TableCell>
                   <TableCell>Kello</TableCell>
                   <TableCell align="right">Pyöriä vapaana</TableCell>
+                  <TableCell align="right">Paikkoja vapaana</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -156,6 +157,7 @@ class App extends Component {
                       {moment(item.timestamp).format("H.mm")}
                     </TableCell>
                     <TableCell align="right">{item.bikesAvailable}</TableCell>
+                    <TableCell align="right">{item.spacesAvailable}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
