@@ -113,7 +113,7 @@ class RealTimeInfo extends Component {
                 <Grid container spacing={24}>
                     <Grid item xs={4}>
                         <Typography variant="subtitle2" gutterBottom>Tiedot päivitetty</Typography>
-                        <Typography variant="body2">{updateTime.format('H.m')}</Typography>
+                        <Typography variant="body2">{updateTime.format('H.mm')}</Typography>
                     </Grid>
                     <Grid item xs={4}>
                         <Typography variant="subtitle2" gutterBottom>Pyöriä vapaana</Typography>
