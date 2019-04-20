@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter as Route, Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Table from "@material-ui/core/Table";
@@ -7,13 +6,13 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { DateTimePicker } from "material-ui-pickers";
 import Paper from "@material-ui/core/Paper";
 import Divider from '@material-ui/core/Divider';
 import Select from "react-select";
 import moment from "moment";
 import stations from "./stations.js";
 import RealTimeInfo from "./RealTimeInfo.js";
+import DateTimeRangePicker from "./DateTimeRangePicker";
 
 const styles = theme => ({
   /*root: {
@@ -88,42 +87,22 @@ class App extends Component {
       );
   };
 
-  handleDateChangeFrom = timeFrom => {
+  handleDateChange = dateTime => {
     this.setState({
-      timeFrom: timeFrom
+      timeFrom: dateTime.start,
+      timeTo: dateTime.end
     });
-    if (this.state.selectedStation)
-      this.handleChange(this.state.selectedStation);
-  };
-
-  handleDateChangeTo = timeTo => {
-    this.setState({
-      timeTo: timeTo
-    });
-    if (this.state.selectedStation)
-      this.handleChange(this.state.selectedStation);
   };
 
   render() {
-    const { selectedStation, stationItems, timeFrom, timeTo } = this.state;
+    const { selectedStation, stationItems } = this.state;
     const { classes } = this.props;
 
     return (
       <>
         <main className={classes.layout}>
           <div className="picker">
-            <DateTimePicker
-              value={timeFrom}
-              onChange={value => this.handleDateChangeFrom(value)}
-              label="With Today Button"
-              showTodayButton
-            />
-            <DateTimePicker
-              value={timeTo}
-              onChange={value => this.handleDateChangeTo(value)}
-              label="With Today Button"
-              showTodayButton
-            />
+          <DateTimeRangePicker handleChange={this.handleDateChange} />
           </div>
           <Select
             value={selectedStation}

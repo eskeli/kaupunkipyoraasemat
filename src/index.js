@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./index.css";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import MomentUtils from "@date-io/moment";
@@ -8,15 +8,6 @@ import App from "./App";
 import Muuta from "./Muuta.js";
 import MyAppBar from "./MyAppBar.js";
 import * as serviceWorker from "./serviceWorker";
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-});
 
 ReactDOM.render(
   <Router>

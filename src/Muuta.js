@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BrowserRouter as Route, Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { DateTimePicker } from "material-ui-pickers";
@@ -14,7 +13,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import moment from "moment";
-import stations from "./stations.js";
 import RealTimeInfo from "./RealTimeInfo.js";
 
 
@@ -119,7 +117,7 @@ class Muuta extends Component {
   };
 
   render() {
-    const { selectedStation, stations, timeFrom, timeTo } = this.state;
+    const { stations, timeFrom } = this.state;
     const { classes } = this.props;
 
     return (
