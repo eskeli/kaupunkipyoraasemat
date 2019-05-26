@@ -52,7 +52,7 @@ class Muuta extends Component {
     stations: [],
     latitude: 60.192059,
     longitude: 24.945831,
-    meters: 300,
+    meters: localStorage.getItem('radius') || '400',
     hour: "2019-04-13T07"
   };
   handleChange = () => {
@@ -71,6 +71,8 @@ class Muuta extends Component {
       .then(res => res.json())
       .then(
         result => {
+          // Save radius
+          localStorage.setItem('radius', this.state.meters);
           this.setState({
             isLoading: false,
             stations: result.body
