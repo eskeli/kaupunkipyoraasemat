@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DateTimePicker } from "material-ui-pickers";
+import { DateTimePicker } from "@material-ui/pickers";
 import moment from "moment";
 
 export default function DateTimeRangePicker(props){

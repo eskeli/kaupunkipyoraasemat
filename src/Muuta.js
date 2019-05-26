@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { DateTimePicker } from "material-ui-pickers";
+import { DateTimePicker } from "@material-ui/pickers";
 import Paper from "@material-ui/core/Paper";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -14,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import moment from "moment";
 import RealTimeInfo from "./RealTimeInfo.js";
+import MapExpandCard from "./MapExpandCard.js";
 
 
 const styles = theme => ({
@@ -180,6 +181,7 @@ class Muuta extends Component {
               </Button>
             </Grid>
           </Grid>
+          <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
           
             {stations.map((item, index) => (
               <div key={item.stationId}>
