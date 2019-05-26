@@ -25,7 +25,7 @@ function MyAppBar(props) {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="title" color="inherit" className={classes.toolbarTitle}>
-                    Kaupunkipyöräasemat
+                    Pyöräasemat
               </Typography>
                 <Button variant="contained" color="secondary" className={classes.button} component={Link} to="/">
                     Etusivu
