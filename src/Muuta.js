@@ -86,9 +86,15 @@ class Muuta extends Component {
     this.setState({
       isLoading: true
     });
+    if(this.state.settings.includes('time')) {
+      var time = this.state.timeFrom.toISOString();
+    } else {
+      var time = moment().toISOString();
+    }
+    
     fetch(
       `https://exnd0cvym5.execute-api.eu-north-1.amazonaws.com/test/getbikestationhistorywithinradius/${
-      this.state.latitude}/${this.state.longitude}/${this.state.meters}?time=${this.state.timeFrom.toISOString()}`,
+      this.state.latitude}/${this.state.longitude}/${this.state.meters}?time=${time}`,
       {
         headers: {
           "x-api-key": "9vpFpkbbx67kd1Xtswfw7a5W3D7oNP5g485MJYTM"
