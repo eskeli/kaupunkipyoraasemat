@@ -24,10 +24,11 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import Select from "react-select";
+import AsyncSelect from 'react-select/lib/Async';
 import moment from "moment";
 import RealTimeInfo from "./RealTimeInfo.js";
 import MapExpandCard from "./MapExpandCard.js";
+import debounce from "debounce-promise";
 
 
 const styles = theme => ({
@@ -82,16 +83,26 @@ class Muuta extends Component {
     settings: [],
     searchTerm: '',
   };
+
+  constructor(props) {
+    super(props);
+
+    const loadOptions = inputValue => this.promiseOptions(inputValue);
+    this.debouncedPromiseOptions = debounce(loadOptions, 1000, {
+      leading: false
+    });
+  }
+
   handleChange = () => {
     this.setState({
       isLoading: true
     });
-    if(this.state.settings.includes('time')) {
+    if (this.state.settings.includes('time')) {
       var time = this.state.timeFrom.toISOString();
     } else {
       var time = moment().toISOString();
     }
-    
+
     fetch(
       `https://exnd0cvym5.execute-api.eu-north-1.amazonaws.com/test/getbikestationhistorywithinradius/${
       this.state.latitude}/${this.state.longitude}/${this.state.meters}?time=${time}`,
@@ -157,11 +168,35 @@ class Muuta extends Component {
     });
   };
 
-  handleAddressSearchChange = searchTerm => {
+  handleAddressChange = location => {
+    console.log(location);
     this.setState({
-
+      latitude: location.value[0],
+      longitude: location.value[1]
     });
   };
+
+  promiseOptions = inputValue => {
+      return fetch(
+        `https://api.digitransit.fi/geocoding/v1/autocomplete?text=${inputValue}`
+      )
+        .then(res => res.json())
+        .then(
+          result => {
+            return result.features.map(feature => {
+              return {
+                value: [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
+                label: feature.properties.label,
+              }
+            });
+          },
+          error => {
+            this.setState({
+              error
+            });
+          }
+        );
+    };
 
   render() {
     const { stations, timeFrom, settings, searchTerm } = this.state;
@@ -219,7 +254,7 @@ class Muuta extends Component {
 
 
             </Grid>
-            <div className="picker" style={{display: this.state.settings.includes('time') ? 'block' : 'none' }}>
+            <div className="picker" style={{ display: this.state.settings.includes('time') ? 'block' : 'none' }}>
               <DateTimePicker
                 value={timeFrom}
                 onChange={value => this.handleDateChangeFrom(value)}
@@ -229,15 +264,12 @@ class Muuta extends Component {
                 }}
               />
             </div>
-            <Box mt={2} style={{display: this.state.settings.includes('address') ? 'block' : 'none' }}>
-              <Select
-                value={searchTerm}
-                onChange={this.handleAddressSearchChange}
-              />
+            <Box mt={2} style={{ display: this.state.settings.includes('address') ? 'block' : 'none' }}>
+              <AsyncSelect cacheOptions defaultOptions loadOptions={this.debouncedPromiseOptions} onChange={this.handleAddressChange} />
             </Box>
             <Grid container spacing={1} alignItems="center" justify="space-around">
-            <Grid item xs>
-                 <TextField
+              <Grid item xs>
+                <TextField
                   id="latitude"
                   className={classes.textField}
                   value={this.state.latitude}
@@ -263,7 +295,7 @@ class Muuta extends Component {
                     startAdornment: <InputAdornment position="start">Lon</InputAdornment>
                   }}
                 />
-                </Grid>
+              </Grid>
             </Grid>
             <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
           </Card>
