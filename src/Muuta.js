@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Card from '@material-ui/core/Card';
+import Box from '@material-ui/core/Box';
 import { DateTimePicker } from "@material-ui/pickers";
 import Paper from "@material-ui/core/Paper";
 import TextField from '@material-ui/core/TextField';
@@ -23,6 +24,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import EditLocationIcon from '@material-ui/icons/EditLocation';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import Select from "react-select";
 import moment from "moment";
 import RealTimeInfo from "./RealTimeInfo.js";
 import MapExpandCard from "./MapExpandCard.js";
@@ -64,7 +66,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 1,
     padding: theme.spacing.unit * 2,
-  }
+  },
 });
 
 class Muuta extends Component {
@@ -77,7 +79,8 @@ class Muuta extends Component {
     longitude: 24.945831,
     meters: localStorage.getItem('radius') || '400',
     hour: "2019-04-13T07",
-    settings: []
+    settings: [],
+    searchTerm: '',
   };
   handleChange = () => {
     this.setState({
@@ -142,14 +145,20 @@ class Muuta extends Component {
     );
   };
 
-  handleFormat = (event, newSettings) => {
+  handleSettings = (event, newSettings) => {
     this.setState({
       settings: newSettings
     });
   };
 
+  handleAddressSearchChange = searchTerm => {
+    this.setState({
+
+    });
+  };
+
   render() {
-    const { stations, timeFrom, settings } = this.state;
+    const { stations, timeFrom, settings, searchTerm } = this.state;
     const { classes } = this.props;
 
     return (
@@ -204,39 +213,51 @@ class Muuta extends Component {
 
 
             </Grid>
-            <div className="picker">
+            <div className="picker" style={{display: this.state.settings.includes('time') ? 'block' : 'none' }}>
               <DateTimePicker
                 value={timeFrom}
                 onChange={value => this.handleDateChangeFrom(value)}
-                label="Aika"
                 showTodayButton
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><AccessTimeIcon /></InputAdornment>
+                }}
               />
             </div>
-            <Grid container spacing={0} alignItems="center" justify="space-around">
-              <Grid item xs={5}>
-                <TextField
+            <Box mt={2} style={{display: this.state.settings.includes('address') ? 'block' : 'none' }}>
+              <Select
+                value={searchTerm}
+                onChange={this.handleAddressSearchChange}
+              />
+            </Box>
+            <Grid container spacing={1} alignItems="center" justify="space-around">
+            <Grid item xs>
+                 <TextField
                   id="latitude"
-                  label="Latitude"
                   className={classes.textField}
                   value={this.state.latitude}
                   onChange={this.handleInputChange('latitude')}
                   margin="normal"
-                  variant="outlined"
-                  disabled
+                  disabled={!this.state.settings.includes('position')}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">&deg;</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">Lat</InputAdornment>
+                  }}
                 />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs>
                 <TextField
                   id="longitude"
-                  label="Longitude"
                   className={classes.textField}
                   value={this.state.longitude}
                   onChange={this.handleInputChange('longitude')}
                   margin="normal"
-                  variant="outlined"
-                  disabled
+                  disabled={!this.state.settings.includes('position')}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">&deg;</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">Lon</InputAdornment>
+                  }}
                 />
-              </Grid>
+                </Grid>
             </Grid>
             <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
           </Card>
