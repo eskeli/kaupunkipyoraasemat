@@ -54,37 +54,34 @@ function MapExpandCard(props) {
 
   return (
     <>
-      <Card className={classes.card}>
-        <CardActions disableSpacing>
-          <Button
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="Näytä kartta"
-          >
-            <MapIcon /> Näytä kartta
+      <CardActions disableSpacing>
+        <Button
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="Näytä kartta"
+        >
+          <MapIcon /> Näytä kartta
         </Button>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Map center={position} zoom={15} maxZoom={18}  className={classes.map}>
-              <TileLayer
-                //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                url="https://cdn.digitransit.fi/map/v1/hsl-map/{z}/{x}/{y}.png"
-                attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                tileSize={512}
-                zoomOffset={-1}
-              />
-              <Marker position={position}>
-                <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-              </Marker>
-            </Map>
-          </CardContent>
-        </Collapse>
-      </Card>
-
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Map center={position} zoom={15} maxZoom={18} className={classes.map}>
+            <TileLayer
+              //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url="https://cdn.digitransit.fi/map/v1/hsl-map/{z}/{x}/{y}.png"
+              attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+              tileSize={512}
+              zoomOffset={-1}
+            />
+            <Marker position={position}>
+              <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
+            </Marker>
+          </Map>
+        </CardContent>
+      </Collapse>
     </>
   );
 }

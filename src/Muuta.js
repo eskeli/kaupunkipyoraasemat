@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Card from '@material-ui/core/Card';
 import { DateTimePicker } from "@material-ui/pickers";
 import Paper from "@material-ui/core/Paper";
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,6 +15,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
+import MapIcon from '@material-ui/icons/Map';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
+import EditLocationIcon from '@material-ui/icons/EditLocation';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import moment from "moment";
 import RealTimeInfo from "./RealTimeInfo.js";
 import MapExpandCard from "./MapExpandCard.js";
@@ -42,6 +53,17 @@ const styles = theme => ({
   divider: {
     marginTop: theme.spacing.unit * 3,
     marginBottom: theme.spacing.unit * 3,
+  },
+  locationButton: {
+    minHeight: 48,
+    maxHeight: 48,
+    maxWidth: 48,
+    minWidth: 48,
+  },
+  card: {
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 1,
+    padding: theme.spacing.unit * 2,
   }
 });
 
@@ -54,7 +76,8 @@ class Muuta extends Component {
     latitude: 60.192059,
     longitude: 24.945831,
     meters: localStorage.getItem('radius') || '400',
-    hour: "2019-04-13T07"
+    hour: "2019-04-13T07",
+    settings: []
   };
   handleChange = () => {
     this.setState({
@@ -119,72 +142,106 @@ class Muuta extends Component {
     );
   };
 
+  handleFormat = (event, newSettings) => {
+    this.setState({
+      settings: newSettings
+    });
+  };
+
   render() {
-    const { stations, timeFrom } = this.state;
+    const { stations, timeFrom, settings } = this.state;
     const { classes } = this.props;
 
     return (
       <>
         <main className={classes.layout}>
-          <Grid container spacing={24} alignItems="center" justify="space-around">
-            <Grid item xs={4}>
-              <div className="picker">
-                <DateTimePicker
-                  value={timeFrom}
-                  onChange={value => this.handleDateChangeFrom(value)}
-                  label="Aika"
-                  showTodayButton
-                />
-              </div>
+          <div className={classes.toggleContainer}>
+            <Grid container spacing={0} justify="space-between">
+              <ToggleButtonGroup value={settings} onChange={this.handleSettings}>
+                <ToggleButton value="time">
+                  <AccessTimeIcon />
+                </ToggleButton>
+                <ToggleButton value="position">
+                  <TrackChangesIcon />
+                </ToggleButton>
+                <ToggleButton value="address">
+                  <EditLocationIcon />
+                </ToggleButton>
+                <ToggleButton value="map">
+                  <MapIcon />
+                </ToggleButton>
+              </ToggleButtonGroup>
+              <Button variant="outlined" color="primary" className={classes.locationButton} onClick={this.positionButtonClicked}>
+                <MyLocationIcon />
+              </Button>
+
             </Grid>
-            <Grid item xs={4}>
+          </div>
+          <Grid container spacing={1} alignItems="flex-end" justify="space-between">
+            <Grid item xs>
               <TextField
                 id="radius"
-                label="Etäisyys"
                 className={classes.textField}
                 value={this.state.meters}
                 onChange={this.handleInputChange('meters')}
                 margin="normal"
-                variant="outlined"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">m</InputAdornment>,
+                  startAdornment: <InputAdornment position="start">Etäisyys</InputAdornment>
+                }}
               />
             </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" color="primary" className={classes.button} onClick={this.positionButtonClicked}>
-                Hae paikka
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <TextField
-                id="latitude"
-                label="Latitude"
-                className={classes.textField}
-                value={this.state.latitude}
-                onChange={this.handleInputChange('latitude')}
-                margin="normal"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <TextField
-                id="longitude"
-                label="Longitude"
-                className={classes.textField}
-                value={this.state.longitude}
-                onChange={this.handleInputChange('longitude')}
-                margin="normal"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" color="primary" className={classes.button} onClick={this.handleChange}>
-                Päivitä
+            <Grid item>
+              <Button variant="contained" color="primary" className={classes.locationButton} onClick={this.handleChange}>
+                <RefreshIcon />
               </Button>
             </Grid>
           </Grid>
-          <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
-          
-            {stations.map((item, index) => (
-              <div key={item.stationId}>
+
+          <Card className={classes.card}>
+            <Grid container spacing={0} justify="space-between" alignContent="center">
+              <Grid item xs={4}></Grid>
+
+
+            </Grid>
+            <div className="picker">
+              <DateTimePicker
+                value={timeFrom}
+                onChange={value => this.handleDateChangeFrom(value)}
+                label="Aika"
+                showTodayButton
+              />
+            </div>
+            <Grid container spacing={0} alignItems="center" justify="space-around">
+              <Grid item xs={5}>
+                <TextField
+                  id="latitude"
+                  label="Latitude"
+                  className={classes.textField}
+                  value={this.state.latitude}
+                  onChange={this.handleInputChange('latitude')}
+                  margin="normal"
+                  variant="outlined"
+                  disabled
+                />
+              </Grid>
+              <Grid item xs={5}>
+                <TextField
+                  id="longitude"
+                  label="Longitude"
+                  className={classes.textField}
+                  value={this.state.longitude}
+                  onChange={this.handleInputChange('longitude')}
+                  margin="normal"
+                  variant="outlined"
+                  disabled
+                />
+              </Grid>
+            </Grid>
+            <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
+          </Card>
+          {stations.map((item, index) => (
+            <div key={item.stationId}>
               <Paper className={classes.paper} elevation={1}>
                 <Typography variant="h4" gutterBottom>
                   {item.name} ({item.stationId})
@@ -218,10 +275,10 @@ class Muuta extends Component {
                     ))}
                   </TableBody>
                 </Table>
-                </Paper>
-              </div>
-            ))}
-          
+              </Paper>
+            </div>
+          ))}
+
         </main>
       </>
     );
