@@ -16,7 +16,9 @@ import MapIcon from '@material-ui/icons/Map';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, withLeaflet } from 'react-leaflet';
+import VectorGridDefault from 'react-leaflet-vectorgrid';
+import Icon from './Icon.js'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -49,6 +51,20 @@ function MapExpandCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const onMapClick = props.onMapClick;
   const position = [props.latitude, props.longitude]
+  const VectorGrid = withLeaflet(VectorGridDefault);
+
+  const options = {
+    type: 'protobuf',
+    url: 'https://cdn.digitransit.fi/map/v1/hsl-citybike-map/{z}/{x}/{y}.pbf',
+    vectorTileLayerStyles: {
+      stations: {
+          icon: Icon('city-bike-station')
+      }
+      },
+    popup: (layer) => `<div>${layer.properties.name}</div>`,
+    subdomains: {}
+  };
+
   function handleExpandClick() {
     setExpanded(!expanded);
   }
@@ -83,6 +99,7 @@ function MapExpandCard(props) {
               tileSize={512}
               zoomOffset={-1}
             />
+            <VectorGrid {...options} />
             <Marker position={position}>
               <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
             </Marker>
