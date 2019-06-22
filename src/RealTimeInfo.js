@@ -1,40 +1,29 @@
 import React, { Component } from "react";
-import { BrowserRouter as Route, Router, Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { DateTimePicker } from "@material-ui/pickers";
-import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import moment from "moment";
-import stations from "./stations.js";
 
 const styles = theme => ({
     layout: {
         width: "auto",
-        marginLeft: theme.spacing.unit * 2,
-        marginRight: theme.spacing.unit * 2,
-        marginTop: theme.spacing.unit * 2,
-        [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
             width: 600,
             marginLeft: "auto",
             marginRight: "auto"
         }
     },
     paper: {
-        marginTop: theme.spacing.unit * 1,
-        marginBottom: theme.spacing.unit * 3,
-        padding: theme.spacing.unit * 2,
-        [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            marginTop: theme.spacing.unit * 1,
-            marginBottom: theme.spacing.unit * 6,
-            padding: theme.spacing.unit * 3
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(3),
+        padding: theme.spacing(2),
+        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(6),
+            padding: theme.spacing(3)
         }
     }
 });
@@ -98,7 +87,6 @@ class RealTimeInfo extends Component {
 
     render() {
         const { stationData, updateTime } = this.state;
-        const { classes } = this.props;
 
         // Render empty if the data has not been updated
         if (!updateTime) {

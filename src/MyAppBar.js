@@ -9,9 +9,6 @@ import { Link } from "react-router-dom";
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
     toolbarTitle: {
         flex: 1,
     },
@@ -24,7 +21,7 @@ function MyAppBar(props) {
         <CssBaseline />
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="title" color="inherit" className={classes.toolbarTitle}>
+                <Typography variant="h5" color="inherit" className={classes.toolbarTitle}>
                     Pyöräasemat
               </Typography>
                 <Button variant="contained" color="secondary" className={classes.button} component={Link} to="/">

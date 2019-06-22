@@ -8,7 +8,6 @@ import Paper from "@material-ui/core/Paper";
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -34,28 +33,28 @@ import debounce from "debounce-promise";
 const styles = theme => ({
   layout: {
     width: "auto",
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
       marginLeft: "auto",
       marginRight: "auto"
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 1,
-    marginBottom: theme.spacing.unit * 1,
-    padding: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 1,
-      marginBottom: theme.spacing.unit * 6,
-      padding: theme.spacing.unit * 3
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(6) * 2)]: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
     }
   },
   divider: {
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
   },
   locationButton: {
     minHeight: 48,
@@ -64,9 +63,9 @@ const styles = theme => ({
     minWidth: 48,
   },
   card: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 1,
-    padding: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    padding: theme.spacing(2),
   },
 });
 
@@ -76,12 +75,11 @@ class Muuta extends Component {
     timeFrom: moment(),
     isLoading: false,
     stations: [],
-    latitude: 60.192059,
-    longitude: 24.945831,
+    latitude: 60.23065006057714,
+    longitude: 24.948921203613285,
     meters: localStorage.getItem('radius') || '400',
     hour: "2019-04-13T07",
     settings: [],
-    searchTerm: '',
   };
 
   constructor(props) {
@@ -97,10 +95,11 @@ class Muuta extends Component {
     this.setState({
       isLoading: true
     });
+    var time = '';
     if (this.state.settings.includes('time')) {
-      var time = this.state.timeFrom.toISOString();
+      time = this.state.timeFrom.toISOString();
     } else {
-      var time = moment().toISOString();
+      time = moment().toISOString();
     }
 
     fetch(
@@ -206,7 +205,7 @@ class Muuta extends Component {
     };
 
   render() {
-    const { stations, timeFrom, settings, searchTerm } = this.state;
+    const { stations, timeFrom, settings } = this.state;
     const { classes } = this.props;
 
     return (

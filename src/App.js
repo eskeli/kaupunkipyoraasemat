@@ -15,35 +15,30 @@ import RealTimeInfo from "./RealTimeInfo.js";
 import DateTimeRangePicker from "./DateTimeRangePicker";
 
 const styles = theme => ({
-  /*root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 4
-  },*/
   layout: {
     width: "auto",
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(4))]: {
       width: 600,
       marginLeft: "auto",
       marginRight: "auto"
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 1,
-    marginBottom: theme.spacing.unit * 3,
-    padding: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 1,
-      marginBottom: theme.spacing.unit * 6,
-      padding: theme.spacing.unit * 3
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(6))]: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
     }
   },
   divider: {
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
   }
 });
 
@@ -101,9 +96,7 @@ class App extends Component {
     return (
       <>
         <main className={classes.layout}>
-          <div className="picker">
           <DateTimeRangePicker handleChange={this.handleDateChange} />
-          </div>
           <Select
             value={selectedStation}
             onChange={this.handleChange}
