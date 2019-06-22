@@ -176,6 +176,13 @@ class Muuta extends Component {
     });
   };
 
+  onMapClick = event => {
+    this.setState({
+      latitude: event.latlng.lat,
+      longitude: event.latlng.lng
+    });
+  }
+
   promiseOptions = inputValue => {
       return fetch(
         `https://api.digitransit.fi/geocoding/v1/autocomplete?text=${inputValue}`
@@ -297,7 +304,7 @@ class Muuta extends Component {
                 />
               </Grid>
             </Grid>
-            <MapExpandCard latitude={this.state.latitude} longitude={this.state.longitude} />
+            <MapExpandCard onMapClick={this.onMapClick} latitude={this.state.latitude} longitude={this.state.longitude} />
           </Card>
           {stations.map((item, index) => (
             <div key={item.stationId}>

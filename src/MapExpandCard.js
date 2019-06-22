@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 function MapExpandCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const onMapClick = props.onMapClick;
   const position = [props.latitude, props.longitude]
   function handleExpandClick() {
     setExpanded(!expanded);
@@ -68,7 +69,13 @@ function MapExpandCard(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Map center={position} zoom={15} maxZoom={18} className={classes.map}>
+          <Map 
+          center={position} 
+          zoom={15} 
+          maxZoom={18} 
+          className={classes.map}
+          onClick={onMapClick}
+          >
             <TileLayer
               //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               url="https://cdn.digitransit.fi/map/v1/hsl-map/{z}/{x}/{y}.png"
