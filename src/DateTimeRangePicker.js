@@ -22,7 +22,7 @@ export default function DateTimeRangePicker(props){
   }
 
   return (
-    <div class="pickers">
+    <div className="pickers">
         <DateTimePicker
           value={start}
           onChange={handleStartChange}

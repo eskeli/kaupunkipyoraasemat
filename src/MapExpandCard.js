@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +10,7 @@ import MapIcon from '@material-ui/icons/Map';
 import { Map, Marker, Popup, TileLayer, withLeaflet } from 'react-leaflet';
 import VectorGridDefault from 'react-leaflet-vectorgrid';
 import Icon from './Icon.js'
+import StationHistory from './StationHistory.js';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -37,12 +38,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
 function MapExpandCard(props) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = useState(true);
+  const [selectedStation, setSelectedStation] = useState({});
   const onMapClick = props.onMapClick;
   const position = [props.latitude, props.longitude]
   const VectorGrid = withLeaflet(VectorGridDefault);
+
+  const handleStationClick = (layer) => {
+    setSelectedStation(
+      { value: layer.properties.id, 
+        label: layer.properties.id + " " + layer.properties.name 
+      });
+  }
 
   const options = {
     type: 'protobuf',
@@ -52,10 +62,8 @@ function MapExpandCard(props) {
           icon: Icon('city-bike-station')
       }
     },
-    popup: (layer) => {
-      return `<div>${layer.properties.name}</div>
-              <div>${layer.properties.id}</div>`
-    },
+    popup: (layer) => `<p>${layer.properties.name}</p>`,
+    onClick: (event) => handleStationClick(event.layer),
     subdomains: {}
   };
 
@@ -87,7 +95,6 @@ function MapExpandCard(props) {
           onClick={onMapClick}
           >
             <TileLayer
-              //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               url="https://cdn.digitransit.fi/map/v1/hsl-map/{z}/{x}/{y}.png"
               attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
               tileSize={512}
@@ -98,6 +105,7 @@ function MapExpandCard(props) {
               <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
             </Marker>
           </Map>
+          <StationHistory selectedStation={selectedStation}/>
         </CardContent>
       </Collapse>
     </>
